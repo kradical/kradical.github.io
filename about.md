@@ -9,4 +9,5 @@ I am A 4th year engineering student at the University of Victoria. Currently gri
 ### Contact me
 
 [konrad_here@hotmail.com](mailto:konrad_here@hotmail.com)
+
 [Linked in](https://www.linkedin.com/in/konradschultz/)
