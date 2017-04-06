@@ -1,6 +1,12 @@
 ---
 layout: post
-title: Curiousity Driven Development
+title: Curiosity Driven Development
 ---
 
-Here is some placeholder text.
+The name Curiosity Driven Development is something that came to me as a joke idea. Everyone is always talking about test driven development. Just when you thought you were caught up and learned TDD everyone is clamouring about BDD (is that a typo??) No. Now if your framework doesn't support Behaviour Driven Development I guess it's time to get a new testing framework.
+
+In my mind test driven development is characterized by writing tests and then application code. The process of writing failing tests and then making them pass is supposed to be conductive to writing better, more modular, more testable code. The patterns that fall out of writing *testable* code are often more maintainable and easier to architect around in the future. I have never fully subscribed to test driven developement. My usual workflow is to write code that works for the happy path, then write code for as many corner cases as I can think of, and finally write tests to confirm my thoughts. This could be a bit of a trap (writing tests based on existing code) that causes bad assumptions. But In my limited experience I think bad assumptions get made whether the tests or the application code comes first.
+
+I'm having a bit of a difficult time defining Behaviour Driven Developement. I have used BDD style requirements and tests before (javascript framework mocha). I am all too familiar with given-when-then.. I think BDD is just a difference in the way you look at requirements and how you decide *what* and *how* to test. It seems a common thread with BDD is keeping things simple with plain english requirements and test reporting.
+
+One of the best ways to go about testing is to write tests with minimal frameworks and testing libraries. After a few test suites you start to realize where all your boiler plate is coming from and at that point you can look for a library that solves that problem. Often times rewriting application code to be more testable results in not requiring frameworks or pinpointing exactly the framework you need. 
