@@ -4,4 +4,6 @@ title: About
 permalink: /about/
 ---
 
-I am a 4th year engineering student at the University of Victoria. Currently grinding it out to graduation while working part time doing iOS developement. This blog is a collection of posts on assorted topics. I plan to post about things I am learning to solidify ideas and have a written reference of what I have been through. If any posts are useful to others that is a double bonus.
+I am currently in my final semester of software engineering at the University of Victoria. I love programming languages and learning how they work. This blog is mainly focussed on computer science and programming related topics. I will often document problems and challenges I am having or interesting things I learn.
+
+I am also working part time doing iOS and service developement for Level48, a small Victoria based tech start up.

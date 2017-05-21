@@ -1,4 +1,4 @@
-# Curiosity Driven Development
+# Driven Development
 
 This is the repository for my blog.
 
