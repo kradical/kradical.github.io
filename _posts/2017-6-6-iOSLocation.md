@@ -53,7 +53,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 
 
 This article is in progress and will include:
--authorization plist keys and functions
--location manager filter options
--location manager accuracy options
--how to apply your own custom filter to incoming locations
+* authorization plist keys and functions
+* location manager filter options
+* location manager accuracy options
+* how to apply your own custom filter to incoming locations
