@@ -38,7 +38,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("locationManager error: \(error)", withLevel: .warning)
+        print("locationManager error: \(error)")
     }
 
     func stopUpdatingLocation() {
@@ -51,8 +51,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 }
 ```
 
-TODO go over authorization plist keys and functions
-TODO go over filter options
-TODO go over accuracy options
-TODO show a custom filter
-TODO do an example of a common use
+
+This article is in progress and will include:
+-authorization plist keys and functions
+-location manager filter options
+-location manager accuracy options
+-how to apply your own custom filter to incoming locations
