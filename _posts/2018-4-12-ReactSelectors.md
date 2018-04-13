@@ -71,7 +71,7 @@ const mapStateToProps = (state) => ({
 });
 
 {% endhighlight %}
-##### An example for selecting entities.
+<center>An example for selecting entities.</center>
 
 If you are experienced with `reselect` you will see the problems right away. You may be thinking, “I hate contrived examples in tech articles”. Unfortunately this is not very contrived and has been far too real for far too long 😭.
 
@@ -90,7 +90,7 @@ const entitiesSelector = createSelector(
       .filter((entity) => entity.name === name),
 );
 {% endhighlight %}
-##### The previous example with clearer syntax.
+<center>The previous example with clearer syntax.</center>
 
 Great! We can select and filter arrays of entities by name everywhere in our application! Wow isn’t this convenient, and we wrote very little code! But what is the “magic” that `reselect` is doing? The benefit of `reselect` is memoization. Memoization means storing the results of function calls to use them in place of recomputing the value.
 
@@ -106,7 +106,7 @@ const mapStateToProps = (state) => ({
   karenUsers: entitiesSelector(state, 'users', 'Karen'),
 });
 {% endhighlight %}
-##### Improper selector usage, no memoization.
+<center>Improper selector usage, no memoization.</center>
 
 The example above will break memoization because of the change in the name argument. In fact, even cross component usage in two separate mapStateToProps functions will break memoization!
 
@@ -133,7 +133,7 @@ const mapStateToProps = (state) => ({
   karenUsers: karenSelector(state),
 });
 {% endhighlight %}
-##### An example with a selector factory.
+<center>An example with a selector factory.</center>
 
 This is perfect! We are back in business. These 2 selectors can be used all over the application with expected memoization. The drawbacks of this are:
 
@@ -164,7 +164,7 @@ const makeMapStateToProps = () => {
   return mapStateToProps;
 }
 {% endhighlight %}
-##### An example of a selector factory with dynamic selecting.
+<center>An example of a selector factory with dynamic selecting.</center>
 
 Hopefully this illustrates there is a lot of boilerplate and thought that goes into correct selector usage. But luckily you are already using `redux` so you love boilerplate. One minor drawback to boilerplate is that it is easy to forget, or mess up. In the case of selectors this most likely results in your application silently using selectors incorrectly. Hmm, silent failure. That sounds pretty bad.
 
@@ -189,7 +189,7 @@ const mapStateToProps = (state) => ({
   karenUsers: entitiesSelector(state, 'users', 'Karen'),
 });
 {% endhighlight %}
-##### An example of a cached selector.
+<center>An example of a cached selector.</center>
 
 The only difference is now we include a function to calculate the cache key based on selector input arguments. The usage is the same as `reselect` but with proper memoization! This means `re-reselect` can be a drop in replacement even if you are using `reselect` incorrectly. `re-reselect` uses the cache key to create/get a different `reselect` selector based on different arguments.
 
