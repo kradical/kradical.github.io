@@ -3,12 +3,11 @@ layout: post
 title: Be Selective With Your State
 ---
 
-# Be Selective With Your State
-## A Dive into Selectors featuring `reselect` and `re-reselect`.
+### A Dive into Selectors featuring `reselect` and `re-reselect`.
 
 This article focuses on selectors in the context of a `React` application backed by a `redux` store. If you or your friends are writing a `React` application with `redux` and like to do things right.. this article is for you!
 
-What is a selector anyways? If a `redux` store is kind of like a database then selectors are like queries. And just like you would normalize a database you should be storing minimal state in your `redux` store. One problem with minimal state is that the derived data your components depend on can be computation intensive or complicated to get from the minimal representation. Selectors can solve all these problems and more. Selectors are such a central part of application data flow that at Riipen we decided to audit our selector usage. We found that we were not getting any benefit from the way we used `reselect` and that needed to change.
+What is a selector anyways? If a `redux` store is kind of like a database then selectors are like queries. And just like you would normalize a database you should be storing minimal state in your `redux` store. One problem with minimal state is that the derived data your components depend on can be computation intensive or complicated to get from the minimal representation. Selectors can solve all these problems and more. Selectors are such a central part of application data flow that at [Riipen](https://riipen.io/landing) we decided to audit our selector usage. We found that we were not getting any benefit from the way we used `reselect` and that needed to change.
 
 Lets explore the motivation for using selectors. One common usage of selectors is to cache expensive computations. This way the value won’t get recomputed until the underlying relevant state changes. Another usage is to return the exact same (===) array or object on a computed set of data. This is useful to keep `React` from needlessly re-rendering a component. An example of this is below.
 This component re-renders sooo often.
@@ -19,11 +18,11 @@ Note that `reselect` and `redux` are built on the idea of immutable state. Mutat
 
 Lets look at some code!
 
-What is `reselect`? `reselect` is a simple selector library for `redux`. The classic example is using a selector to calculate total price based on some items in a cart and a tax rate. Lets deviate a bit and break down a simplified real-world example from Riipen.
+What is `reselect`? `reselect` is a simple selector library for `redux`. The classic example is using a selector to calculate total price based on some items in a cart and a tax rate. Lets deviate a bit and break down a simplified real-world example from [Riipen](https://riipen.io/landing).
 
 First you need some context. Here is the shape of our `redux` store and an example.
 
-```javascript
+{% highlight javascript %}
 /* 
  * const stateShape = {
  *   entities: {
@@ -40,8 +39,8 @@ const exampleState = {
     },
   },
 };
-```
-The relevant piece of our `redux` store.
+{% endhighlight %}
+##### The relevant piece of our `redux` store.
 
 And here is an example of selecting entities from the `redux` store above.
 
@@ -72,7 +71,7 @@ const mapStateToProps = (state) => ({
 });
 
 ```
-An example for selecting entities.
+##### An example for selecting entities.
 
 If you are experienced with `reselect` you will see the problems right away. You may be thinking, “I hate contrived examples in tech articles”. Unfortunately this is not very contrived and has been far too real for far too long 😭.
 
@@ -91,11 +90,11 @@ const entitiesSelector = createSelector(
       .filter((entity) => entity.name === name),
 );
 ```
-The previous example with clearer syntax.
+##### The previous example with clearer syntax.
 
 Great! We can select and filter arrays of entities by name everywhere in our application! Wow isn’t this convenient, and we wrote very little code! But what is the “magic” that `reselect` is doing? The benefit of `reselect` is memoization. Memoization means storing the results of function calls to use them in place of recomputing the value.
 
-    A functional programming aside: A pure function gives the same output for any set of inputs and doesn’t have any side effects. This means if you call the function twice with the same arguments you can use the result of the first call and forget about the second call all together. A perfect candidate for memoization! And… selectors are pure functions (a side-effect of this is they are super testable too)!
+>A functional programming aside: A pure function gives the same output for any set of inputs and doesn’t have any side effects. This means if you call the function twice with the same arguments you can use the result of the first call and forget about the second call all together. A perfect candidate for memoization! And… selectors are pure functions (a side-effect of this is they are super testable too)!
 
 `reselect` selectors keep track of the arguments and return values and only recalculate the return value if the arguments have changed. I said “magic” above but `reselect` is around 75 lines of code and there is not much magic going on. It is a library that is definitely worth reading if you use it!
 
@@ -107,7 +106,7 @@ const mapStateToProps = (state) => ({
   karenUsers: entitiesSelector(state, 'users', 'Karen'),
 });
 ```
-Improper selector usage, no memoization.
+##### Improper selector usage, no memoization.
 
 The example above will break memoization because of the change in the name argument. In fact, even cross component usage in two separate mapStateToProps functions will break memoization!
 
@@ -134,7 +133,7 @@ const mapStateToProps = (state) => ({
   karenUsers: karenSelector(state),
 });
 ```
-An example with a selector factory.
+##### An example with a selector factory.
 
 This is perfect! We are back in business. These 2 selectors can be used all over the application with expected memoization. The drawbacks of this are:
 
@@ -165,7 +164,7 @@ const makeMapStateToProps = () => {
   return mapStateToProps;
 }
 ```
-An example of a selector factory with dynamic selecting.
+##### An example of a selector factory with dynamic selecting.
 
 Hopefully this illustrates there is a lot of boilerplate and thought that goes into correct selector usage. But luckily you are already using `redux` so you love boilerplate. One minor drawback to boilerplate is that it is easy to forget, or mess up. In the case of selectors this most likely results in your application silently using selectors incorrectly. Hmm, silent failure. That sounds pretty bad.
 
@@ -190,8 +189,8 @@ const mapStateToProps = (state) => ({
   karenUsers: entitiesSelector(state, 'users', 'Karen'),
 });
 ```
-An example of a cached selector.
+##### An example of a cached selector.
 
 The only difference is now we include a function to calculate the cache key based on selector input arguments. The usage is the same as `reselect` but with proper memoization! This means `re-reselect` can be a drop in replacement even if you are using `reselect` incorrectly. `re-reselect` uses the cache key to create/get a different `reselect` selector based on different arguments.
 
-At Riipen, we were using `reselect` incorrectly for a long time. The selectors were a part of the code base that nobody wanted to touch. It seemed like they had a high degree of complexity and a huge impact. Almost every single component uses selectors and a refactor would have a huge impact with no current perceivable benefit. We eventually bit the bullet on this piece of technical debt and invested approximately a week of developer time into adding unit tests for our selectors and refactoring. The benefit has been a huge confidence boost in the teams dealings with selectors and no mysterious performance degradation in the future. Hopefully our mistakes can help inform your decisions on how to properly integrate `reselect` and `re-reselect` into your `React`/`redux` project.
+At [Riipen](https://riipen.io/landing), we were using `reselect` incorrectly for a long time. The selectors were a part of the code base that nobody wanted to touch. It seemed like they had a high degree of complexity and a huge impact. Almost every single component uses selectors and a refactor would have a huge impact with no current perceivable benefit. We eventually bit the bullet on this piece of technical debt and invested approximately a week of developer time into adding unit tests for our selectors and refactoring. The benefit has been a huge confidence boost in the teams dealings with selectors and no mysterious performance degradation in the future. Hopefully our mistakes can help inform your decisions on how to properly integrate `reselect` and `re-reselect` into your `React`/`redux` project.
