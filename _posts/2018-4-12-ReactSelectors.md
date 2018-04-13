@@ -5,6 +5,8 @@ title: Be Selective With Your State
 
 ### A Dive into Selectors featuring `reselect` and `re-reselect`.
 
+<center>![Article banner]({{ "/assets/selectorArticleBanner.png" | absolute_url }})</center>
+
 This article focuses on selectors in the context of a `React` application backed by a `redux` store. If you or your friends are writing a `React` application with `redux` and like to do things right.. this article is for you!
 
 What is a selector anyways? If a `redux` store is kind of like a database then selectors are like queries. And just like you would normalize a database you should be storing minimal state in your `redux` store. One problem with minimal state is that the derived data your components depend on can be computation intensive or complicated to get from the minimal representation. Selectors can solve all these problems and more. Selectors are such a central part of application data flow that at [Riipen](https://riipen.io/landing) we decided to audit our selector usage. We found that we were not getting any benefit from the way we used `reselect` and that needed to change.
