@@ -40,11 +40,11 @@ const exampleState = {
   },
 };
 {% endhighlight %}
-##### The relevant piece of our `redux` store.
+<center>The relevant piece of our `redux` store.</center>
 
 And here is an example of selecting entities from the `redux` store above.
 
-```javascript
+{% highlight javascript %}
 import { createSelector } from 'reselect';
 
 const entitiesSelector = createSelector(
@@ -70,7 +70,7 @@ const mapStateToProps = (state) => ({
   allUsersNamedBob: entitiesSelector(state, 'users', name: 'Bob'),
 });
 
-```
+{% endhighlight %}
 ##### An example for selecting entities.
 
 If you are experienced with `reselect` you will see the problems right away. You may be thinking, “I hate contrived examples in tech articles”. Unfortunately this is not very contrived and has been far too real for far too long 😭.
@@ -79,7 +79,7 @@ If you are not experienced with `reselect` don’t worry, read on!
 
 In `reselect`’s createSelector the final function takes the results of all the previous functions as arguments. Each of the “previous functions” takes the arguments the selector is called with. There is an alternative way to write the functions to draw a clear distinction between the two types of function. Putting the first set of functions in array identifies all the intermediate selectors.
 
-```javascript
+{% highlight javascript %}
 const entitiesSelector = createSelector(
   [
     (state, type, /* name */) => state.entities[type],
@@ -89,7 +89,7 @@ const entitiesSelector = createSelector(
     Object.values(entities)
       .filter((entity) => entity.name === name),
 );
-```
+{% endhighlight %}
 ##### The previous example with clearer syntax.
 
 Great! We can select and filter arrays of entities by name everywhere in our application! Wow isn’t this convenient, and we wrote very little code! But what is the “magic” that `reselect` is doing? The benefit of `reselect` is memoization. Memoization means storing the results of function calls to use them in place of recomputing the value.
@@ -100,19 +100,19 @@ Great! We can select and filter arrays of entities by name everywhere in our app
 
 Unfortunately there is a classic gotcha in the example above. entitiesSelector has a cache size of 1 so using the selector in more than one location (or more than one instance of a component) results in recalculating often.
 
-```javascript
+{% highlight javascript %}
 const mapStateToProps = (state) => ({
   bobUsers: entitiesSelector(state, 'users', 'Bob'),
   karenUsers: entitiesSelector(state, 'users', 'Karen'),
 });
-```
+{% endhighlight %}
 ##### Improper selector usage, no memoization.
 
 The example above will break memoization because of the change in the name argument. In fact, even cross component usage in two separate mapStateToProps functions will break memoization!
 
 One solution is to build a factory for each option.
 
-```javascript
+{% highlight javascript %}
 const allUsersNamedFactory = (name) => createSelector(
   (state) => entitiesSelector(state, {
     type: 'users',
@@ -132,7 +132,7 @@ const mapStateToProps = (state) => ({
   bobUsers: bobSelector(state),
   karenUsers: karenSelector(state),
 });
-```
+{% endhighlight %}
 ##### An example with a selector factory.
 
 This is perfect! We are back in business. These 2 selectors can be used all over the application with expected memoization. The drawbacks of this are:
@@ -142,7 +142,7 @@ This is perfect! We are back in business. These 2 selectors can be used all over
 
 Another solution (that maintains dynamic selecting ability based on props) is to make an entitySelector factory and then use makeMapStateToProps instead of mapStateToProps. This will call the factory per component instance giving you a fresh instance of entitySelector:
 
-```javascript
+{% highlight javascript %}
 // First we need to change entitySelector into a factory
 const makeEntitySelector = () => createSelector(
   (state, type, /* name */) => state.entities[type],
@@ -163,14 +163,14 @@ const makeMapStateToProps = () => {
 
   return mapStateToProps;
 }
-```
+{% endhighlight %}
 ##### An example of a selector factory with dynamic selecting.
 
 Hopefully this illustrates there is a lot of boilerplate and thought that goes into correct selector usage. But luckily you are already using `redux` so you love boilerplate. One minor drawback to boilerplate is that it is easy to forget, or mess up. In the case of selectors this most likely results in your application silently using selectors incorrectly. Hmm, silent failure. That sounds pretty bad.
 
 This is where `re-reselect` comes in. `re-reselect` builds a cache of multiple `reselect` selectors cached based on input arguments. So our entitiesSelector would now be:
 
-```javascript
+{% highlight javascript %}
 import createCachedSelector from 're-reselect';
 
 const entitiesSelector = createCachedSelector(
@@ -188,7 +188,7 @@ const mapStateToProps = (state) => ({
   bobUsers: entitiesSelector(state, 'users', 'Bob'),
   karenUsers: entitiesSelector(state, 'users', 'Karen'),
 });
-```
+{% endhighlight %}
 ##### An example of a cached selector.
 
 The only difference is now we include a function to calculate the cache key based on selector input arguments. The usage is the same as `reselect` but with proper memoization! This means `re-reselect` can be a drop in replacement even if you are using `reselect` incorrectly. `re-reselect` uses the cache key to create/get a different `reselect` selector based on different arguments.
