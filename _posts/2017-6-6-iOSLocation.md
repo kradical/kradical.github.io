@@ -51,9 +51,10 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 }
 ```
 
+This skeleton allows you to fill in more complex behaviour without directly adding more bloat to your AppDelegate.
 
-This article is in progress and will include:
-* authorization plist keys and functions
-* location manager filter options
-* location manager accuracy options
-* how to apply your own custom filter to incoming locations
+One of the biggest problems I encountered was background locations. I think this is such a tough problem because fundamentally GPS uses a lot of battery. There is not a good way to maintain good battery life and good accuracy. You have to make a tradeoff somewhere.
+
+My overall strategy after weeks of reading and testing was to backoff the accuracy when relatively still and then after moving ~200m to turn on high accuracy again. This works very well in wifi rich locations where the 100-500m accuracy can be determined easily. One problem with this approach is it keeps the app on in the background all the time. I think it may be worth experimenting with periodically waking up in the background to sample location / location change.
+
+No matter what approach you take you are ultimately at the mercy of the almighty operating system. Preparing for unexpected termination is one of the hardest problems with this sort of application.
