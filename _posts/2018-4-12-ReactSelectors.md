@@ -5,10 +5,7 @@ title: Be Selective With Your State
 
 ### A Dive into Selectors featuring `reselect` and `re-reselect`.
 
-<center>![Article banner]({{ "/assets/selectorArticleBanner.png" | absolute_url }})</center>
-
 ![Article banner]({{ "/assets/selectorArticleBanner.png" | absolute_url }})
-![Article banner]({{ "/assets/selectorArticleBanner.png" }})
 
 This article focuses on selectors in the context of a `React` application backed by a `redux` store. If you or your friends are writing a `React` application with `redux` and like to do things right.. this article is for you!
 
