@@ -4,6 +4,8 @@ title: About
 permalink: /about/
 ---
 
-I studied software engineering at the University of Victoria. I am currently a lead software engineer at [Riipen](https://riipen.io/landing) working on platform development. Riipen is an EdTech startup. We are looking to solve the experience gap and underemployment. We do this by pairing up students with industry partners to provide valuable real-world experience.
+Update from 2025:
 
-I love programming languages and learning how they work. This blog is focuses on computer science and programming related topics. Follow me through the ups and downs of problems/challenges I face through my employment and personal projects!
+This is my site. If you got here from my resume you probably have everything you need from there. I decided to err on the side of not posting my entire work history on the public internet but feel free to browse my few tech articles from 2017.
+
+One day I might post more, but for now consider this place held.
